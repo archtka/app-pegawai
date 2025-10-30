@@ -1,45 +1,84 @@
-<h2>Edit Data Pegawai</h2>
-<form action="{{ route('employees.update', $employee->id)}}" method="POST">
+@extends('master')
+
+@section('title', 'Edit Pegawai')
+@section('page-title', 'Form Edit Pegawai')
+
+@section('content')
+<form action="{{ route('employees.update', $employee->id) }}" method="POST">
     @csrf
     @method('PUT')
-    <table>
-        <tr>
-            <td>Nama Lengkap</td>
-            <td><input type="text" name="nama_lengkap" value="{{ old('nama_lengkap', $employee->nama_lengkap) }}"></td>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td><input type="email" name="email" value="{{ old('email', $employee->email) }}"></td>
-        </tr>
-        <tr>
-            <td>Nomor Telepon</td>
-            <td><input type="text" name="nomor_telepon" value="{{ old('nomor_telepon', $employee->nomor_telepon) }}"></td>
-        </tr>
-        <tr>
-            <td>Tanggal Lahir</td>
-            <td><input type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir', $employee->tanggal_lahir) }}"></td>
-        </tr>
-        <tr>
-            <td>Alamat</td>
-            <td><input type="text" name="alamat" value="{{ old('alamat', $employee->alamat) }}"></td>
-        </tr>
-        <tr>
-            <td>Tanggal Masuk</td>
-            <td><input type="date" name="tanggal_masuk" value="{{ old('tanggal_masuk', $employee->tanggal_masuk) }}"></td>
-        </tr>
-        <tr>
-            <td>Status</td>
-            <td>
-                <select name="status">
-                    <option value="aktif" {{ old('status', $employee->status) == 'aktif' ? 'selected': '' }}>Aktif</option>
-                    <option value="nonaktif" {{ old('status', $employee->status) == 'nonaktif'? 'selected': '' }}>Nonaktif</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <button type="submit">Update</button>
-            </td>
-        </tr>
-    </table>
+    
+    <div class="form-grid">
+        
+        <div class="form-group">
+            <label for="nama_lengkap" class="form-label">Nama Lengkap</label>
+            <input type="text" id="nama_lengkap" name="nama_lengkap" class="form-control" value="{{ old('nama_lengkap', $employee->nama_lengkap) }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" name="email" class="form-control" value="{{ old('email', $employee->email) }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="nomor_telepon" class="form-label">Nomor Telepon</label>
+            <input type="text" id="nomor_telepon" name="nomor_telepon" class="form-control" value="{{ old('nomor_telepon', $employee->nomor_telepon) }}">
+        </div>
+
+        <div class="form-group">
+            <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
+            <input type="date" id="tanggal_lahir" name="tanggal_lahir" class="form-control" value="{{ old('tanggal_lahir', $employee->tanggal_lahir) }}">
+        </div>
+
+        <div class="form-group">
+            <label for="tanggal_masuk" class="form-label">Tanggal Masuk</label>
+            <input type="date" id="tanggal_masuk" name="tanggal_masuk" class="form-control" value="{{ old('tanggal_masuk', $employee->tanggal_masuk) }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="status" class="form-label">Status</label>
+            <select id="status" name="status" class="form-control">
+                <option value="aktif" {{ old('status', $employee->status) == 'aktif' ? 'selected' : '' }}>Aktif</option>
+                <option value="nonaktif" {{ old('status', $employee->status) == 'nonaktif' ? 'selected' : '' }}>Nonaktif</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="departemen_id" class="form-label">Departemen</label>
+            <select id="departemen_id" name="departemen_id" class="form-control" required>
+                <option value="">Pilih Departemen</option>
+                @foreach($departments as $dept)
+                    <option value="{{ $dept->id }}" {{ old('departemen_id', $employee->departemen_id) == $dept->id ? 'selected' : '' }}>
+                        {{ $dept->nama_departemen }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="jabatan_id" class="form-label">Jabatan</label>
+            <select id="jabatan_id" name="jabatan_id" class="form-control" required>
+                <option value="">Pilih Jabatan</option>
+                @foreach($positions as $pos)
+                    <option value="{{ $pos->id }}" {{ old('jabatan_id', $employee->jabatan_id) == $pos->id ? 'selected' : '' }}>
+                        {{ $pos->nama_jabatan }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        
+        <div class="form-group form-group-full">
+            <label for="alamat" class="form-label">Alamat</label>
+            <textarea id="alamat" name="alamat" class="form-control" rows="3">{{ old('alamat', $employee->alamat) }}</textarea>
+        </div>
+
+    </div>
+
+    {{-- Bagian Tombol --}}
+    <div class="form-actions">
+        <a href="{{ route('employees.index') }}" class="btn btn-secondary">Batal</a>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </div>
+
 </form>
+@endsection

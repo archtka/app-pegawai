@@ -1,0 +1,347 @@
+/* ======================================= */
+/* FONT ('Poppins')                        */
+/* ======================================= */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Reset dasar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ======================================= */
+/* LAYOUT UTAMA (WARNA BARU)               */
+/* ======================================= */
+
+body {
+    font-family: 'Poppins', 'Arial', sans-serif;
+    background-color: #F4F4F4; /* <-- WARNA BARU (Light Gray) */
+    color: #0C2B4E; /* <-- WARNA BARU (Very Dark Blue) */
+}
+
+.centered-layout-wrapper {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* 1. Navbar Bagian Atas */
+.top-navbar {
+    background: #ffffff; /* Tetap putih agar menonjol */
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 1rem 1.5rem;
+    border-radius: 16px;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0C2B4E; /* <-- WARNA BARU (Very Dark Blue) */
+    text-decoration: none;
+}
+
+/* 2. Dropdown Menu */
+.navbar-user-dropdown {
+    position: relative;
+}
+
+.dropdown-toggle {
+    background: #F4F4F4; /* <-- WARNA BARU (Light Gray) */
+    border: 1px solid #e5e7eb;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.875rem;
+    color: #0C2B4E; /* <-- WARNA BARU (Very Dark Blue) */
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    margin-top: 0.5rem;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    width: 200px;
+    z-index: 20;
+    overflow: hidden;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: #0C2B4E; /* <-- WARNA BARU (Very Dark Blue) */
+    text-decoration: none;
+    font-size: 0.875rem;
+}
+
+.dropdown-menu a:hover {
+    background: #F4F4F4; /* <-- WARNA BARU (Light Gray) */
+}
+
+.navbar-user-dropdown:focus-within .dropdown-menu {
+    display: block;
+}
+
+/* 3. Konten Utama (Card Putih Besar) */
+.content-card {
+    background: #ffffff; /* Tetap putih */
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-top: 1.5rem;
+}
+
+.content-card h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #0C2B4E; /* <-- WARNA BARU (Very Dark Blue) */
+}
+
+/* 4. Footer */
+footer {
+    text-align: center;
+    padding: 1.5rem 0;
+    font-size: 0.875rem;
+    color: #1D546C; /* <-- WARNA BARU (Medium Blue) */
+    margin-top: 1.5rem;
+}
+
+
+/* ======================================= */
+/* STYLING TOMBOL (WARNA BARU)      */
+/* ======================================= */
+.table-footer {
+    margin-top: 1.5rem;
+    text-align: right;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.6rem 1.25rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    text-decoration: none;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background-color: #1A3D64; /* <-- WARNA BARU (Dark Blue) */
+    color: #ffffff;
+    border-color: #1A3D64; /* <-- WARNA BARU (Dark Blue) */
+}
+
+.btn-primary:hover {
+    background-color: #1D546C; /* <-- WARNA BARU (Medium Blue) */
+    border-color: #1D546C; /* <-- WARNA BARU (Medium Blue) */
+    box-shadow: 0 4px 12px rgba(29, 84, 108, 0.3); /* Shadow disesuaikan */
+}
+
+
+/* ======================================= */
+/* STYLING TABEL (DESAIN BARU)    */
+/* ======================================= */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    border: 1px solid #e5e7eb; /* Tambah border luar tipis */
+    border-radius: 8px; /* <-- Buat sudut tabel rounded */
+    overflow: hidden; /* <-- Penting untuk border-radius */
+}
+
+/* Header Tabel (Sesuai Request) */
+.data-table thead tr {
+    /* Ini akan di-override oleh 'th' */
+}
+
+.data-table th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    background-color: #1A3D64; /* <-- WARNA BARU HEADER (Dark Blue) */
+    color: #ffffff; /* <-- WARNA BARU HEADER (Putih) */
+}
+
+/* Body Tabel (Sesuai Request "Selang-seling") */
+.data-table tbody tr {
+    /* Kosongkan */
+}
+
+/* Baris Ganjil */
+.data-table tbody tr:nth-of-type(odd) {
+    background-color: #ffffff; /* Putih */
+}
+
+/* Baris Genap */
+.data-table tbody tr:nth-of-type(even) {
+    background-color: #F4F4F4; /* <-- WARNA BARU (Light Gray) */
+}
+
+.data-table td {
+    padding: 1rem;
+    color: #0C2B4E; /* <-- WARNA BARU (Very Dark Blue) */
+    border-bottom: 1px solid #e5e7eb; /* Garis pemisah antar baris */
+}
+
+.data-table tbody tr:last-child td {
+    border-bottom: none; /* Hapus border di baris terakhir */
+}
+
+/* Kolom Aksi (untuk merapikan) */
+.data-table td.actions {
+    text-align: right;
+}
+
+.data-table td .action-link {
+    color: #1D546C; /* <-- WARNA BARU (Medium Blue) */
+    text-decoration: none;
+    font-weight: 500;
+    margin: 0 0.5rem;
+}
+
+.data-table td .action-link:hover {
+    text-decoration: underline;
+}
+
+.data-table td .delete-button {
+    background: none;
+    border: none;
+    color: #ef4444; /* Tetap merah untuk 'danger' */
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0;
+    margin: 0 0.5rem;
+}
+
+.data-table td .delete-button:hover {
+    text-decoration: underline;
+}
+
+/* =--------------------------------------- */
+/* STYLING FORM (CREATE & EDIT)              */
+/* ----------------------------------------- */
+
+/* Grid layout untuk form */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 kolom */
+    gap: 1.5rem; /* Jarak antar field */
+}
+
+/* Wrapper untuk 1 field (label + input) */
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Style untuk <label> */
+.form-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #1D546C; /* Aksen Biru Medium */
+    margin-bottom: 0.5rem;
+}
+
+/* Style untuk input, select, textarea */
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    color: #0C2B4E; /* Teks Biru Gelap */
+    background-color: #F4F4F4; /* Latar Abu-abu */
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #1A3D64; /* Border Biru Gelap */
+    box-shadow: 0 0 0 3px rgba(26, 61, 100, 0.1);
+}
+
+/* Grup yang butuh 1 baris penuh */
+.form-group-full {
+    grid-column: 1 / -1; /* Mengisi 2 kolom */
+}
+
+/* Bagian tombol di bawah form */
+.form-actions {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #F4F4F4;
+    display: flex;
+    justify-content: flex-end; /* Tombol di kanan */
+    gap: 0.75rem;
+}
+
+/* Tombol sekunder (Batal/Kembali) */
+.btn-secondary {
+    background-color: #e5e7eb;
+    color: #374151;
+    border-color: #e5e7eb;
+}
+
+.btn-secondary:hover {
+    background-color: #d1d5db;
+    border-color: #d1d5db;
+}
+
+/* ----------------------------------------- */
+/* STYLING HALAMAN SHOW (DETAIL)             */
+/* ----------------------------------------- */
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem 2rem;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #1D546C; /* Aksen Biru Medium */
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.detail-value {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #0C2B4E; /* Teks Biru Gelap */
+    word-wrap: break-word;
+    background-color: #F4F4F4;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+}

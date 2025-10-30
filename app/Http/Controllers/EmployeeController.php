@@ -1,108 +1,129 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Employee; 
 
-
+use App\Models\Employee;
+use App\Models\Department;
+use App\Models\Position;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule; // Import 'Rule' untuk validasi email yang canggih
 
 class EmployeeController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan semua data pegawai (dengan pagination)
      */
     public function index()
     {
-        $employees = Employee::latest()->paginate(5); // Ambil 5 data terbaru per halaman
-        return view('employees.index', compact('employees')); // Kirim ke view employees.index
+        // Ambil data terbaru, 5 per halaman
+        $employees = Employee::latest()->paginate(5); 
+        return view('employees.index', compact('employees'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Menampilkan form untuk menambah data baru
      */
-    // Menampilkan form untuk menambah data baru
     public function create()
     {
-        return view('employees.create');
+        // Ambil data departemen & jabatan untuk dropdown
+        $departments = Department::all();
+        $positions = Position::all();
+        return view('employees.create', compact('departments', 'positions'));
     }
 
-    // Menyimpan data baru
+    /**
+     * Menyimpan data baru ke database
+     */
     public function store(Request $request)
     {
-        // 1. Validasi Data
+        // Validasi data yang masuk
         $request->validate([
-            'nama_lengkap'  => 'required|string|max:255',
-            'email'         => 'required|email|max:255',
-            'nomor_telepon' => 'required|string|max:20',
-            'tanggal_lahir' => 'required|date',
-            'alamat'        => 'required|string|max:255',
+            'nama_lengkap' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:employees', // Pastikan email unik
+            'nomor_telepon' => 'nullable|string|max:20', // Dibuat opsional (nullable)
+            'tanggal_lahir' => 'nullable|date', // Dibuat opsional
+            'alamat' => 'nullable|string', // Dibuat opsional
             'tanggal_masuk' => 'required|date',
-            'status'        => 'required|string|max:50',
+            'status' => 'required|in:aktif,nonaktif',
+            'departemen_id' => 'required|exists:departments,id', // Pastikan departemen ada
+            'jabatan_id' => 'required|exists:positions,id', // Pastikan jabatan ada
         ]);
 
-        // 2. Simpan Data ke Database menggunakan Eloquent
+        // Buat data baru
         Employee::create($request->all());
 
-        // 3. Redirect kembali ke halaman index
+        // Redirect kembali ke halaman index
         return redirect()->route('employees.index');
     }
 
-    // Menampilkan detail data pegawai
+    /**
+     * Menampilkan detail satu data pegawai
+     */
     public function show(string $id)
     {
-        $employee = Employee::find($id);
+        // Ambil 1 data pegawai, DAN data relasinya (department & position)
+        // 'with()' digunakan untuk Eager Loading, ini lebih efisien
+        $employee = Employee::with(['department', 'position'])->findOrFail($id);
+        
         return view('employees.show', compact('employee'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Menampilkan form untuk mengedit data
      */
-    // Menampilkan form edit data pegawai
     public function edit(string $id)
     {
-        $employee = Employee::find($id);
-        return view('employees.edit', compact('employee'));
+        // ---- INI ADALAH PERBAIKAN UNTUK ERROR KAMU ----
+        
+        // 1. Ambil data pegawai yang akan diedit
+        $employee = Employee::findOrFail($id);
+        
+        // 2. Ambil SEMUA data departemen & jabatan untuk dropdown
+        $departments = Department::all();
+        $positions = Position::all();
+
+        // 3. Kirimkan SEMUA data ke view
+        return view('employees.edit', compact('employee', 'departments', 'positions'));
     }
 
-    // Memperbarui data pegawai
+    /**
+     * Memperbarui data di database
+     */
     public function update(Request $request, string $id)
     {
-        // 1. Validasi Data
+        // 1. Ambil data pegawai yang ada
+        $employee = Employee::findOrFail($id);
+
+        // 2. Validasi data
         $request->validate([
             'nama_lengkap'  => 'required|string|max:255',
-            'email'         => 'required|email|max:255',
-            'nomor_telepon' => 'required|string|max:20',
-            'tanggal_lahir' => 'required|date',
-            'alamat'        => 'required|string|max:255',
+            // Gunakan Rule::unique untuk mengabaikan email milik pegawai ini sendiri
+            'email'         => ['required', 'email', 'max:255', Rule::unique('employees')->ignore($employee->id)],
+            'nomor_telepon' => 'nullable|string|max:20',
+            'tanggal_lahir' => 'nullable|date',
+            'alamat'        => 'nullable|string',
             'tanggal_masuk' => 'required|date',
-            'status'        => 'required|string|max:50',
+            'status'        => 'required|in:aktif,nonaktif',
+            'departemen_id' => 'required|exists:departments,id', // Tambahkan ini
+            'jabatan_id'    => 'required|exists:positions,id', // Tambahkan ini
         ]);
 
-        // 2. Cari data dan Update
-        $employee = Employee::findOrFail($id);
-        $employee->update($request->only([
-            'nama_lengkap',
-            'email',
-            'nomor_telepon',
-            'tanggal_lahir',
-            'alamat',
-            'tanggal_masuk',
-            'status',
-        ]));
+        // 3. Update data pegawai
+        $employee->update($request->all());
 
-        // 3. Redirect kembali ke halaman index
+        // 4. Redirect kembali ke halaman index
         return redirect()->route('employees.index');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Menghapus data dari database
      */
-    // Menghapus data pegawai
     public function destroy(string $id)
     {
-        $employee = Employee::find($id);
+        // Cari data atau gagal (error 404)
+        $employee = Employee::findOrFail($id);
         $employee->delete();
+        
         return redirect()->route('employees.index');
     }
 }
-

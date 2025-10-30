@@ -1,39 +1,66 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Detail Pegawai</title>
-</head>
-<body>
-    <h1>Detail Pegawai</h1>
-    <table border="1" cellpadding="8" cellspacing="0">
-        <tr>
-            <th>Nama Lengkap</th>
-            <td>{{ $employee->nama_lengkap }}</td>
-        </tr>
-        <tr>
-            <th>Email</th>
-            <td>{{ $employee->email }}</td>
-        </tr>
-        <tr>
-            <th>Nomor Telepon</th>
-            <td>{{ $employee->nomor_telepon }}</td>
-        </tr>
-        <tr>
-            <th>Tanggal Lahir</th>
-            <td>{{ $employee->tanggal_lahir }}</td>
-        </tr>
-        <tr>
-            <th>Alamat</th>
-            <td>{{ $employee->alamat }}</td>
-        </tr>
-        <tr>
-            <th>Tanggal Masuk</th>
-            <td>{{ $employee->tanggal_masuk }}</td>
-        </tr>
-        <tr>
-            <th>Status</th>
-            <td>{{ $employee->status }}</td>
-        </tr>
-    </table>
-</body>
-</html>
+@extends('master')
+
+@section('title', 'Detail Pegawai')
+@section('page-title', 'Detail Pegawai: ' . $employee->nama_lengkap)
+
+@section('content')
+
+    {{-- Layout baru untuk menampilkan detail --}}
+    <div class="detail-grid">
+
+        <div class="detail-item">
+            <span class="detail-label">Nama Lengkap</span>
+            <span class="detail-value">{{ $employee->nama_lengkap }}</span>
+        </div>
+
+        <div class="detail-item">
+            <span class="detail-label">Email</span>
+            <span class="detail-value">{{ $employee->email }}</span>
+        </div>
+
+        <div class="detail-item">
+            <span class="detail-label">Nomor Telepon</span>
+            <span class="detail-value">{{ $employee->nomor_telepon ?? '-' }}</span>
+        </div>
+
+        <div class="detail-item">
+            <span class="detail-label">Tanggal Lahir</span>
+            <span class="detail-value">{{ $employee->tanggal_lahir ? \Carbon\Carbon::parse($employee->tanggal_lahir)->format('d F Y') : '-' }}</span>
+        </div>
+        
+        <div class="detail-item">
+            <span class="detail-label">Tanggal Masuk</span>
+            <span class="detail-value">{{ $employee->tanggal_masuk ? \Carbon\Carbon::parse($employee->tanggal_masuk)->format('d F Y') : '-' }}</span>
+        </div>
+
+        <div class="detail-item">
+            <span class="detail-label">Status</span>
+            <span class="detail-value" style="text-transform: capitalize;">{{ $employee->status }}</span>
+        </div>
+
+        <div class="detail-item">
+            <span class="detail-label">Departemen</span>
+            {{-- Pastikan relasi 'department' ada di model Employee --}}
+            <span class="detail-value">{{ $employee->department->nama_departemen ?? 'N/A' }}</span>
+        </div>
+
+        <div class="detail-item">
+            <span class="detail-label">Jabatan</span>
+            {{-- Pastikan relasi 'position' ada di model Employee --}}
+            <span class="detail-value">{{ $employee->position->nama_jabatan ?? 'N/A' }}</span>
+        </div>
+
+        <div class="detail-item" style="grid-column: 1 / -1;">
+            <span class="detail-label">Alamat</span>
+            <span class="detail-value">{{ $employee->alamat ?? '-' }}</span>
+        </div>
+
+    </div>
+
+    {{-- Bagian Tombol --}}
+    <div class="form-actions">
+        <a href="{{ route('employees.index') }}" class="btn btn-secondary">Kembali</a>
+        <a href="{{ route('employees.edit', $employee->id) }}" class="btn btn-primary">Edit Data</a>
+    </div>
+
+@endsection
